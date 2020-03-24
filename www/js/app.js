@@ -16,7 +16,7 @@ $("#cerrar").click(function logout() {
         localStorage.setItem("Total", JSON.stringify(null));
         location.href = "index.html";
     }).catch(function (error) {
-        // An error happened.
+        console.log("error para cerrar sesion")
     });
 });
 
