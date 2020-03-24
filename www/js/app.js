@@ -7,6 +7,7 @@ var config = {
     storageBucket: "construapp-v1.appspot.com",
     messagingSenderId: "312248850383"
 };
+/*autenticacion de usuarios con firebase*/
 firebase.initializeApp(config);
 // Initialize Cloud Firestore through Firebase
 const db = firebase.firestore();
