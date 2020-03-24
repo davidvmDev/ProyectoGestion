@@ -1,3 +1,4 @@
+/*coneccion base de datos*/
 var config = {
     apiKey: "AIzaSyDJS6peY9rslv81SoN2Q08JcSTnVFYD_2E",
     authDomain: "construapp-v1.firebaseapp.com",
