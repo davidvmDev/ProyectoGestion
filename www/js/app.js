@@ -66,7 +66,28 @@ var settingsView = app.views.create('#view-settings', {
   url: '/settings/'
 });
 
+function Agregar () {
+   
+  var titulo = document.getElementById("titulo").value;
+  var deposito = document.getElementById("deposito").value;
+  var tipo = document.getElementById("tipo").value;
+  var precio = document.getElementById("precio").value;
+  var imagen = document.getElementById("url").value;
+  var marca = document.getElementById("marca").value;
+  var peso = document.getElementById("peso").value;
 
+  
+  db.collection('cemento').add({
+      titulo: titulo,
+      deposito: deposito,
+      tipo: tipo,
+      precio: precio,       
+      imgP: imagen,
+      marca: marca,
+      peso: peso
+      });
+      window.alert("Producto Agregado");
+};
    
 
 
