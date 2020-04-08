@@ -16,12 +16,121 @@
             </div>
         </div>
         <div class="page-content">
-          
+            <div class="card demo-card-header-pic">
+                <div class="card-header align-items-flex-end imagen" id="imagenG"></div>
+                <div class="card-content card-content-padding espacio">
+                    <h2 id="titulo"></h2>
+                    <p id="descripcion">El cemento es un material que resulta de la combinación de arcilla molida con materiales calcáreos de polvo, en tanto, una vez que entran en contacto con el agua se solidifica y vuelve duro. Es mayormente empleado a instancias de la construcción, justamente por esa solidez que reviste, como adherente y aglutinante.</p>
+                    
+                    <h4>Elige la Cantidad</h4>
+
+                    <div class="list">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title">Cantidad: <span id="cantidad-count"></span></div>
+                                    <div class="stepper stepper-small stepper-fill stepper-round stepper-init color-black">
+                                        <div class="stepper-button-minus" onclick="Min()"></div>
+                                        <div class="stepper-input-wrap" id="inputCant">
+                                            <input type="number" value="1" min="0" max="100" step="1" readonly id="cantidad">
+                                        </div>
+                                        <div class="stepper-button-plus" onclick="Max()"></div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                    <h4>Deposito</h4>
+                    <div class="list">
+                        <ul>
+                            <li class="item-content">
+                                <div class="item-inner">
+                                    <div class="item-title" id="deposito"></div>                                  
+                                </div>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <div class="card-footer">
+                    <h3 id="total"></h3>
+                        <div>
+                        <button class="button button-fill color-orange" id="chip" onclick="anadirCar()">Agregar al carrito</button>
+                        </div>
+
+                </div>
+            </div>
+           <script>
+               function anadirCar(){
+                   window.alert("Producto agregado");                  
+
+               }
+               
+               function Max() {
+                   var stepper = (parseInt(document.getElementById("cantidad").value))+1; 
+                   var total = parseInt(JSON.parse(localStorage.getItem("precio")));  
+                   var totall = total*stepper;                                     
+                   document.getElementById("total").innerHTML = "Precio: $" + totall;
+  
+                    
+               }
+               function Min() {
+                var stepper = (parseInt(document.getElementById("cantidad").value))-1; 
+                if(stepper!=-1){                   
+                   var total = parseInt(JSON.parse(localStorage.getItem("precio")));
+                   var totall = total*stepper;                 
+                   localStorage.setItem("total", JSON.stringify(totall));
+                   document.getElementById("total").innerHTML = "Precio: $" + totall;
+                }
+                  
+               }
+
+           </script>
+
+
 
         </div>
     </div>
 
 </template>
+<script>  
+    return {
+
+        on: {
+
+            pageInit: function (e, page) {             
+                var productId = this.$route.params.id;
+                
+
+                db.collection('cemento').get().then((snapshot) => {
+                    snapshot.docs.forEach(doc => {
+                        if (doc.id == productId) {         
+                            var stepper = app.stepper.get('.stepper');
+                            var total = doc.data().precio;
+                            if (stepper.value != 0) total = stepper.value * doc.data().precio;  
+                            localStorage.setItem("total", JSON.stringify(total));
+                            localStorage.setItem("precio", JSON.stringify(total));
+                           
+                          
+                            var tituloCar = doc.data().titulo + " " + doc.data().marca;
+                            localStorage.setItem("tituloCar", JSON.stringify(tituloCar));
+                            document.getElementById("total").innerHTML = "Precio: $" + total;
+                            document.getElementById("titulo").innerHTML = doc.data().titulo;
+                            document.getElementById("deposito").innerHTML = doc.data().deposito;
+                            document.getElementById("imagenG").style.backgroundImage = "url(img/" + doc.data().marca + ".jpg)";
+
+                        }
+  
+                    })
+                })
+                
+            }
+        }
+    }
+</script>
+
+
+
 
 
 
