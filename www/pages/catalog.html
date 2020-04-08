@@ -6,7 +6,7 @@
                     <i class="icon icon-back"></i>
                     <span class="if-not-md">Back</span>
                 </a>
-                <div class="title">Catalog</div>
+                <div class="title">Cemento</div>
                 <div class="right">
                     <a href="#" class="link icon-only panel-open" data-panel="right">
                         <i class="icon f7-icons ios-only">menu</i>
@@ -17,8 +17,186 @@
         </div>
         <div class="page-content">
 
+            <div class="block-title display-flex justify-content-space-between">Filtrar por precio<span class="price-value">$10000 - $20000</span></div>
+            <div class="list simple-list">
+                <ul>
+                    <li class="item-row">
+                        <div class="item-cell width-auto flex-shrink-0">
+
+                            <i class="icon material-icons md-only ">monetization_on</i>
+                        </div>
+                        <div class="item-cell item-cell-shrink-3">
+                            <!-- Dual range slider with all the parameters passed via data- attributes -->
+                            <div id="price-filter"
+                                 class="range-slider range-slider-init color-green"
+                                 data-label="true"
+                                 data-dual="true"
+                                 data-min="0"
+                                 data-max="100000"
+                                 data-step="1000"
+                                 data-value-left="10000"
+                                 data-value-right="20000"></div>
+                        </div>
+                        <div class="item-cell width-auto flex-shrink-0">
+
+                            <i class="icon material-icons md-only ">monetization_on</i>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <script>
+                $$('#price-filter').on('range:change', function (e, range) {
+                    $$('.price-value').text('$' + (range.value[0]) + ' - $' + (range.value[1]));
+                });
+            </script>
+
+            <div class="block-title">Filtrar por peso</div>
+            <div class="list no-hairlines-md">
+
+                <ul>
+
+                    <li>
+
+                        <a class="item-link smart-select smart-select-init" data-open-in="popover">
+                            <select name="Tipo" multiple id="pesoF">
+                                <option value="50" selected>50kg</option>
+                                <option value="25">25kg</option>
+                                <option value="10">10kg</option>
+                            </select>
+                            <div class="item-content">
+                                <i class=" icon material-icons md-only ifiltro">all_inbox</i>
+                                <div class="item-inner chevron-center">
+                                    <div class="item-title">Peso</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="block-title" id="ej" onclick="ejemplo()">Filtrar por Marca</div>
+            <div class="list no-hairlines-md">
+                <ul>
+                    <li>
+                        <a class="item-link smart-select smart-select-init" data-open-in="popover">
+                            <select name="Marca" multiple id="marcaF">
+                                <option value="Argos" selected>Argos</option>
+                                <option value="Cemex">Cemex</option>
+                                <option value="Diamante">Diamante</option>
+                                <option value="Topex">Topex</option>
+                            </select>
+                            <div class="item-content">
+                                <i class="material-icons md-only icon ifiltro">group_work</i>
+                                <div class="item-inner chevron-center">
+                                    <div class="item-title">Marca</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="block-title">Filtrar por Deposito</div>
+            <div class="list no-hairlines-md">
+                <ul>
+                    <li>
+                        <a class="item-link smart-select smart-select-init" data-open-in="popover">
+                            <select name="Deposito" multiple id="depositoF">
+                                <option value="Para Construir" selected>Para Construir</option>
+                                <option value="Botero">Botero</option>
+                                <option value="Miranda">Miranda</option>
+                                <option value="San Pio">San Pio</option>
+                                <option value="Paris">Paris</option>
+                                <option value="Medina">Medina</option>
+                            </select>
+                            <div class="item-content">
+                                <i class="material-icons md-only icon ifiltro">store</i>
+                                <div class="item-inner chevron-center">
+                                    <div class="item-title">Deposito</div>
+                                </div>
+                            </div>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div> <button class=" button button-fill color-orange" id="botonFiltro" onclick="filtrar()">Buscar</button></div>
+
+            <div class="list media-list">
+                <ul id="lista"></ul>
+
+            </div>
+
+            <script>
+                var contenido;
+                function renderProd(doc) {
+                    contenido = "<li><a href='/producto/"+doc.id+"/' class='item-link item-content'><div class='item-media'><img src=" + doc.data().imgP + " width=" + 80 + " /></div><div class='item-inner'><div class='item-title-row'><div class='item-title'>" + doc.data().titulo + "</div><div class='item-after'>$" + doc.data().precio + "</div></div> <div class='item-subtitle'>" + doc.data().tipo + " " + doc.data().marca + "</div><div class='item-text'>" + doc.data().deposito + " " + doc.data().peso + "kg</div></div></a></li>";
+                    document.getElementById("lista").innerHTML += contenido;
+                }
+
+                db.collection('cemento').get().then((snapshot) => {
+                    snapshot.docs.forEach(doc => {
+                        renderProd(doc);
+                    })
+                })
+
+                function filtrar() {
+                    document.getElementById("lista").innerHTML = "";
+                    db.collection('cemento').get().then((snapshot) => {
+                        snapshot.docs.forEach(doc => {
+                            filtrarP(doc);
+                        })
+                    })
+                }
+                function borrarEspacio() {
+                    $("#lista").dele
+                }
+                function filtrarP(doc) {
+                    var conta = 0;
+                    var contb = 0;
+                    var contc = 0;
+                    range = app.range.getValue(".range-slider");
+                    val1 = range[0];
+                    val2 = range[1];
+                    peso = $("#pesoF").val();
+                    marca = $("#marcaF").val();
+                    deposito = $("#depositoF").val();
+             
+                    if (doc.data().precio >= val1 && doc.data().precio <= val2) {
+                        for (var i = 0; i < peso.length; i++) {
+                            if (peso[i] == doc.data().peso) conta++;
+                        }
+                        if (conta != 0) {
+                            for (var i = 0; i < marca.length; i++) {
+                                if (marca[i] == doc.data().marca) contb++;
+                            }
+                            if (contb != 0) {
+                                for (var i = 0; i < deposito.length; i++) {
+                                    if (deposito[i] == doc.data().deposito) contc++;
+                                }
+                                if (contc != 0) {
+                                    renderProd(doc);
+                                }
+                            }
+                        }
+
+                    }
+
+                }
+
+            </script>
         </div>
 
     </div>
 </template>
+
+<style>
+    .ifiltro {
+        padding-right: 10px;
+    }
+</style>
+
+
+
+<script>
+  
+</script>
+
 

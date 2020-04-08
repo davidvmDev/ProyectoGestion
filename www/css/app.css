@@ -118,3 +118,6 @@ mark {
     border: 0.3px solid #f7dfdf;
     margin:0px 2px 0px 2px 0px;
 }
+.swiper-container-horizontal>.swiper-pagination-bullets{
+    top:101px !important;
+}
