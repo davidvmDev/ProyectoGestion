@@ -59,9 +59,9 @@
 
                         <a class="item-link smart-select smart-select-init" data-open-in="popover">
                             <select name="Tipo" multiple id="pesoF">
-                                <option value="50" selected>50kg</option>
-                                <option value="25">25kg</option>
-                                <option value="10">10kg</option>
+                                <option value=50 selected>50kg</option>
+                                <option value=25 selected>25kg</option>
+                                <option value=10 selected>10kg</option>
                             </select>
                             <div class="item-content">
                                 <i class=" icon material-icons md-only ifiltro">all_inbox</i>
@@ -80,9 +80,9 @@
                         <a class="item-link smart-select smart-select-init" data-open-in="popover">
                             <select name="Marca" multiple id="marcaF">
                                 <option value="Argos" selected>Argos</option>
-                                <option value="Cemex">Cemex</option>
-                                <option value="Diamante">Diamante</option>
-                                <option value="Topex">Topex</option>
+                                <option value="Cemex" selected>Cemex</option>
+                                <option value="Diamante" selected>Diamante</option>
+                                <option value="Topex" selected>Topex</option>
                             </select>
                             <div class="item-content">
                                 <i class="material-icons md-only icon ifiltro">group_work</i>
@@ -101,11 +101,12 @@
                         <a class="item-link smart-select smart-select-init" data-open-in="popover">
                             <select name="Deposito" multiple id="depositoF">
                                 <option value="Para Construir" selected>Para Construir</option>
-                                <option value="Botero">Botero</option>
-                                <option value="Miranda">Miranda</option>
-                                <option value="San Pio">San Pio</option>
-                                <option value="Paris">Paris</option>
-                                <option value="Medina">Medina</option>
+                                <option value="Botero" selected>Botero</option>
+                                <option value="Miranda" selected>Miranda</option>
+                                <option value="San Pio" selected>San Pio</option>
+                                <option value="Paris" selected>Paris</option>
+                                <option value="Medina" selected>Medina</option>
+                                <option value="Titan" selected>Titan</option>
                             </select>
                             <div class="item-content">
                                 <i class="material-icons md-only icon ifiltro">store</i>
@@ -117,73 +118,60 @@
                     </li>
                 </ul>
             </div>
-            <div> <button class=" button button-fill color-orange" id="botonFiltro" onclick="filtrar()">Buscar</button></div>
+            <div> <button class=" button button-fill color-orange" id="botonFiltro" onclick="filtrarProductos()">Buscar</button></div>
 
             <div class="list media-list">
                 <ul id="lista"></ul>
 
-            </div>
-
+            </div> 
             <script>
                 var contenido;
+                var refCemento=db.collection("cemento");
+                var filtrados =[];
+                var filtradosP =[];   
+                var filtradosPyM=[];
+                var filtradosPMyD=[];  
                 function renderProd(doc) {
                     contenido = "<li><a href='/producto/"+doc.id+"/' class='item-link item-content'><div class='item-media'><img src=" + doc.data().imgP + " width=" + 80 + " /></div><div class='item-inner'><div class='item-title-row'><div class='item-title'>" + doc.data().titulo + "</div><div class='item-after'>$" + doc.data().precio + "</div></div> <div class='item-subtitle'>" + doc.data().tipo + " " + doc.data().marca + "</div><div class='item-text'>" + doc.data().deposito + " " + doc.data().peso + "kg</div></div></a></li>";
                     document.getElementById("lista").innerHTML += contenido;
                 }
-
+        
                 db.collection('cemento').get().then((snapshot) => {
                     snapshot.docs.forEach(doc => {
                         renderProd(doc);
                     })
-                })
-
-                function filtrar() {
-                    document.getElementById("lista").innerHTML = "";
-                    db.collection('cemento').get().then((snapshot) => {
-                        snapshot.docs.forEach(doc => {
-                            filtrarP(doc);
-                        })
-                    })
-                }
-                function borrarEspacio() {
-                    $("#lista").dele
-                }
-                function filtrarP(doc) {
-                    var conta = 0;
-                    var contb = 0;
-                    var contc = 0;
+                })                                                            
+                function filtrarProductos(){
+                    document.getElementById("lista").innerHTML = "";                 
                     range = app.range.getValue(".range-slider");
                     val1 = range[0];
                     val2 = range[1];
                     peso = $("#pesoF").val();
                     marca = $("#marcaF").val();
-                    deposito = $("#depositoF").val();
-             
-                    if (doc.data().precio >= val1 && doc.data().precio <= val2) {
-                        for (var i = 0; i < peso.length; i++) {
-                            if (peso[i] == doc.data().peso) conta++;
-                        }
-                        if (conta != 0) {
-                            for (var i = 0; i < marca.length; i++) {
-                                if (marca[i] == doc.data().marca) contb++;
-                            }
-                            if (contb != 0) {
-                                for (var i = 0; i < deposito.length; i++) {
-                                    if (deposito[i] == doc.data().deposito) contc++;
-                                }
-                                if (contc != 0) {
-                                    renderProd(doc);
-                                }
-                            }
-                        }
-
-                    }
-
+                    deposito = $("#depositoF").val(); 
+                    for(var i=0;i<peso.length;i++)peso[i]=parseInt(peso[i]);                              
+                    refCemento.where("precio", ">=",parseInt(val1)).where("precio", "<=",parseInt(val2))
+                        .get()
+                        .then(function(querySnapshot) {
+                            querySnapshot.forEach(function(doc) {   
+                                if(peso.includes(doc.data().peso) && marca.includes(doc.data().marca) && deposito.includes(doc.data().deposito))
+                                renderProd(doc);                                                                                       
+                            });
+                        })
+                        .catch(function(error) {
+                            console.log("Error getting documents: ", error);
+                        })
                 }
+                
+                                    
+                                   
+                                  
+                    
 
-            </script>
-        </div>
 
+                
+        </script>  
+        </div>       
     </div>
 </template>
 
@@ -193,10 +181,9 @@
     }
 </style>
 
-
-
 <script>
   
 </script>
+
 
 
