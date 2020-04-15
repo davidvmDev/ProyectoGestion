@@ -68,13 +68,18 @@ var settingsView = app.views.create('#view-settings', {
 
 function Agregar () {
    
-  var titulo = document.getElementById("titulo").value;
+  var titulo;
   var deposito = document.getElementById("deposito").value;
-  var tipo = document.getElementById("tipo").value;
   var precio = document.getElementById("precio").value;
-  var imagen = document.getElementById("url").value;
+  var imagen;
   var marca = document.getElementById("marca").value;
   var peso = document.getElementById("peso").value;
+  var tipo = "Bulto";
+  titulo="Cemento "+peso+"kg";
+  if(deposito=="San Pio")imagen="img/sanPio.jpg";
+  else if(deposito=="Para Construir")imagen="img/paraConstruir.jpg";
+  else if(deposito=="Paris")imagen="img/parisD.jpg";
+  else imagen="img/"+deposito.toLowerCase()+".jpg";
 
   
   db.collection('cemento').add({
@@ -87,7 +92,9 @@ function Agregar () {
       peso: peso
       });
       window.alert("Producto Agregado");
+      
 };
+
 
 
    
