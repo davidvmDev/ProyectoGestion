@@ -79,9 +79,6 @@
     color: #8e8e93;
 }
 
-.espacio {
-    height: 440px;
-}
 
 .imagen {
     height: 65vw !important;
@@ -102,15 +99,6 @@
 h4 {
     color: #6d6d72;
 }
-.icarrito{
-    color:#000;
-    padding-top:3px;
-}
-.chipCarrito {
-    padding-top: 25px;
-    
-    padding-left: 15px;
-}
 
 #inputCant{
     width:25px;
@@ -126,4 +114,7 @@ mark {
     -webkit-border-radius: 8px 8px 8px 8px;
     border: 0.3px solid #f7dfdf;
     margin:0px 2px 0px 2px 0px;
+}
+.swiper-container-horizontal>.swiper-pagination-bullets{
+    top:101px !important;
 }

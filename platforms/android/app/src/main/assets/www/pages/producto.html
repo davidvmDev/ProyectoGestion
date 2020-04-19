@@ -21,24 +21,7 @@
                 <div class="card-content card-content-padding espacio">
                     <h2 id="titulo"></h2>
                     <p id="descripcion">El cemento es un material que resulta de la combinación de arcilla molida con materiales calcáreos de polvo, en tanto, una vez que entran en contacto con el agua se solidifica y vuelve duro. Es mayormente empleado a instancias de la construcción, justamente por esa solidez que reviste, como adherente y aglutinante.</p>
-                    <h4>Elige Opciones y Agregados</h4>
-                    <div class="list">
-                        <ul>   
-                            
-                                <li>
-                                    <label class="item-checkbox item-content"  >
-
-                                        <div class="item-inner">
-                                            <div class="item-title">Con envio</div>
-                                        </div>
-                                        <input type="checkbox" name="demo-checkbox-envio" value="Envio" />
-                                        <p class="adicion">+$5.000</p>
-                                        <i class="icon icon-checkbox"></i>
-                                    </label>
-                                </li>
-
-                            </ul>
-                    </div>
+                    
                     <h4>Elige la Cantidad</h4>
 
                     <div class="list">
@@ -78,74 +61,29 @@
                 </div>
             </div>
            <script>
-               var conEnvio = false;
-               $('[name="demo-checkbox-envio"]').on('change', function (e) {
-                   if (e.target.checked) {
-                       var total = parseInt(JSON.parse(localStorage.getItem("total")));
-                       totall = total + 5000;
-                       localStorage.setItem("total", JSON.stringify(totall));
-                       conEnvio = true;
-                       document.getElementById("total").innerHTML = "Precio: $" + totall;
-                   }
-                   else {
-                       var total = parseInt(JSON.parse(localStorage.getItem("total")));
-                       totall = total - 5000;
-                       localStorage.setItem("total", JSON.stringify(totall));
-                       conEnvio = false;
-                       document.getElementById("total").innerHTML = "Precio: $" + totall;
-                   }
-               });
+               function anadirCar(){
+                   window.alert("Producto agregado");                  
 
+               }
+               
                function Max() {
-                   
-                   var stepper = parseInt(document.getElementById("cantidad").value); 
+                   var stepper = (parseInt(document.getElementById("cantidad").value))+1; 
                    var total = parseInt(JSON.parse(localStorage.getItem("precio")));  
-                   var totall = (stepper + 1) * total;                  
-                   localStorage.setItem("total", JSON.stringify(totall));
-                    document.getElementById("total").innerHTML = "Precio: $" + totall;
-                    
-                   
+                   var totall = total*stepper;                                     
+                   document.getElementById("total").innerHTML = "Precio: $" + totall;
+  
                     
                }
                function Min() {
-                   var stepper = parseInt(document.getElementById("cantidad").value);
+                var stepper = (parseInt(document.getElementById("cantidad").value))-1; 
+                if(stepper!=-1){                   
                    var total = parseInt(JSON.parse(localStorage.getItem("precio")));
-                   var totall = (stepper - 1) * total;                 
+                   var totall = total*stepper;                 
                    localStorage.setItem("total", JSON.stringify(totall));
-
                    document.getElementById("total").innerHTML = "Precio: $" + totall;
-                  
+                }
                   
                }
-               function anadirCar() {
-                   app.dialog.alert('Productos Agregados');
-                   var titulo = JSON.parse(localStorage.getItem("tituloCar"));
-                   var precio = JSON.parse(localStorage.getItem("precio"));
-                   var total = JSON.parse(localStorage.getItem("total"));
-                   var stepper = parseInt(document.getElementById("cantidad").value);
-                   if (JSON.parse(localStorage.getItem("Total")) != null) {
-                       var Total = parseInt(JSON.parse(localStorage.getItem("Total")));
-                       total += Total;
-                       localStorage.setItem("Total", JSON.stringify(Total));
-                   }
-                   else {
-                       localStorage.setItem("Total", JSON.stringify(total));
-                   }
-                   total = "$ " + total;             
-                   $("#totalCar").html(total);
-                   var orden = "<li class='item-content'><div class='item-inner'><div class='item-title'>" + titulo + "</div><div class='item-after text-color-black'><b>" + precio + "</b></div></div></li>";
-         
-                   for (var i = 0; i < stepper; i++) {
-                       $("#listaCar").prepend(orden);
-                   }
-                   if (conEnvio == true) {
-                       var envio = "<li class='item-content'><div class='item-inner'><div class='item-title'>Envio</div><div class='item-after text-color-black'><b> 5000</b></div></div></li>";
-                       $("#listaCar").append(envio);
-                   }
-               }
-               
-              
-               
 
            </script>
 
@@ -190,6 +128,7 @@
         }
     }
 </script>
+
 
 
 

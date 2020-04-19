@@ -31,7 +31,7 @@
                                  class="range-slider range-slider-init color-green"
                                  data-label="true"
                                  data-dual="true"
-                                 data-min="0"
+                                 data-min="1000"
                                  data-max="100000"
                                  data-step="1000"
                                  data-value-left="10000"
@@ -150,9 +150,10 @@
                     refCemento.where("precio", ">=",parseInt(val1)).where("precio", "<=",parseInt(val2))
                         .get()
                         .then(function(querySnapshot) {
-                            querySnapshot.forEach(function(doc) {   
+                            querySnapshot.forEach(function(doc) {                                 
                                 if(peso.includes(doc.data().peso) && marca.includes(doc.data().marca) && deposito.includes(doc.data().deposito))
-                                renderProd(doc);                                                                                       
+                                renderProd(doc);   
+                                                                                                                    
                             });
                         })
                         .catch(function(error) {
